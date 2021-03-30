@@ -17,10 +17,22 @@ var player2 = {
     speed: 0
 }
 
+var ball = {
+    height: 10,
+    width: 10,
+    xSpeed: 3,
+    ySpeed: -2,
+    x: 100,
+    y: 100
+}
+
 function drawPaddle(player) {
     ctx.fillRect(player.x, player.y - 20, player.width, player.height)
 }
 
+function drawBall(ball) {
+    ctx.fillRect(ball.x, ball.y, ball.width, ball.height)
+}
 ctx.fillStyle = "white"
 
 
@@ -64,12 +76,27 @@ function draw() {
     ctx.clearRect(0,0, 200,200)
     drawPaddle(player1)
     drawPaddle(player2)
+    drawBall(ball)
 }
 
 function update() {
     // This function will tell the computer what's happening on-screen.
     player1.y += player1.speed
     player2.y += player2.speed
+    ball.x += ball.xSpeed
+    ball.y += ball.ySpeed
+
+    if (ball.x < 0) {
+        ball.xSpeed = 3
+    } else if (ball.x + ball.width > 200) {
+        ball.xSpeed = -3
+    } else if (ball.y < 0) {
+        ball.ySpeed = 2
+    } else if (ball.y + ball.height > 200) {
+        ball.ySpeed = -2
+    } else {
+        return
+    }
 }
 
 setInterval(function() {
