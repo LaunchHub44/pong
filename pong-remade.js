@@ -86,20 +86,37 @@ function update() {
     ball.x += ball.xSpeed
     ball.y += ball.ySpeed
 
-    if (ball.x < 0) {
+    // If ball touches p1
+    if (ball.x < player1.x && ball.y >= player1.y && ball.y <= player1.y + player1.height) {
         ball.xSpeed = 3
-    } else if (ball.x + ball.width > 200) {
+    }
+    
+    // if ball touches p2
+    if (ball.x > player2.x && ball.y >= player2.y && ball.y <= player2.y + player2.height) {
         ball.xSpeed = -3
-    } else if (ball.y < 0) {
+    }
+
+    // boundary
+    if (ball.x < 0) {
+        console.log("P2 WINS!")
+        clearInterval(game,0)
+    }
+    if (ball.x > 200) {
+        console.log("P1 WINS!")
+    }
+
+    if (ball.y < 0) {
         ball.ySpeed = 2
     } else if (ball.y + ball.height > 200) {
         ball.ySpeed = -2
     } else {
+        // should not happen
         return
     }
 }
 
-setInterval(function() {
+function game() {
     update()
     draw()
-}, 60)
+}
+setInterval(game, 60)
