@@ -1,0 +1,16 @@
+Tasks
+
+- Get sprites (Done)
+- Draw net (Done)
+- Make ball move (Done)
+- Bounce ball off paddles (Done)
+
+- Make paddles move
+- Score and reset the ball
+- Keep track of score
+- Add sounds 
+  - paddle bounce sound
+  - score sound
+  - wall bounce sound
+- Add ball Y velocity.
+- Play finished game (Final Task)
