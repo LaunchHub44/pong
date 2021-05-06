@@ -1,5 +1,6 @@
 const P1_X = 20
 const P2_X = 380
+const PADDLE_SPEED = 150
 
 var config = {
     type: Phaser.AUTO,
@@ -65,11 +66,16 @@ function create() {
         this.add.rectangle(200, y, 9, 9, '0x333333')
     }
 
+    paddleSound = this.sound.add('paddle-sound')
+    wallSound = this.sound.add('wall-bounce-sound')
+    //scoreSound = this.sound.add('score-sound')
+
     // collision setup
     gameState.player1.setCollideWorldBounds(true)
     gameState.player2.setCollideWorldBounds(true)
     this.physics.add.collider(gameState.ball, gameState.player1, function () {
         gameState.player1.setVelocityX(0)
+        paddleSound.play()
         ballState.xSpeed = -ballState.xSpeed;
         ballState.xSpeed += 10
         console.log(`ball xspeed: ${ballState.xSpeed}`)
@@ -77,6 +83,7 @@ function create() {
     }) 
     this.physics.add.collider(gameState.ball, gameState.player2, function () {
         gameState.player2.setVelocityX(0)
+        paddleSound.play()
         ballState.xSpeed = -ballState.xSpeed;
         ballState.xSpeed -= 10
         console.log(`ball xspeed: ${ballState.xSpeed}`)
@@ -92,18 +99,18 @@ function update() {
 
     // Player 2 Controls
     if (gameState.cursors.up.isDown) {
-        gameState.player2.setVelocityY(-100)
+        gameState.player2.setVelocityY(-PADDLE_SPEED)
     } else if (gameState.cursors.down.isDown) {
-        gameState.player2.setVelocityY(100)
+        gameState.player2.setVelocityY(PADDLE_SPEED)
     } else {
         gameState.player2.setVelocityY(0)
     }
 
     // Player 1 Controls
     if (gameState.key_W.isDown) {
-        gameState.player1.setVelocityY(-100)
+        gameState.player1.setVelocityY(-PADDLE_SPEED)
     } else if (gameState.key_S.isDown) {
-        gameState.player1.setVelocityY(100)
+        gameState.player1.setVelocityY(PADDLE_SPEED)
     } else if (gameState.key_W.isUp || gameState.key_S.isUp) {
         gameState.player1.setVelocityY(0)
     }
@@ -111,9 +118,11 @@ function update() {
     // Court Boundaries for Ball
     if (gameState.ball.y < 0) {
         gameState.ball.y = 0
+        wallSound.play()
         ballState.ySpeed = -ballState.ySpeed
     } else if (gameState.ball.y > 300) {
         gameState.ball.y = 300
+        wallSound.play()
         ballState.ySpeed = -ballState.ySpeed
     }
 }

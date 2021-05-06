@@ -4,13 +4,13 @@ Tasks
 - Draw net (Done)
 - Make ball move (Done)
 - Bounce ball off paddles (Done)
+- Make paddles move (Done)
+- Add ball Y velocity. (Done)
 
-- Make paddles move
 - Score and reset the ball
 - Keep track of score
 - Add sounds 
-  - paddle bounce sound
+  - paddle bounce sound (Done)
   - score sound
-  - wall bounce sound
-- Add ball Y velocity.
+  - wall bounce sound (Done)
 - Play finished game (Final Task)
