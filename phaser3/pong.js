@@ -45,6 +45,15 @@ function preload() {
     this.load.image('paddle', 'image/paddle-white-10x60.png')
 
     this.load.image('ball', 'image/ball.png')
+    gameState.cursors = this.input.keyboard.createCursorKeys()
+    gameState.key_W = this.input.keyboard.addKey('W')
+    gameState.key_S = this.input.keyboard.addKey('S')
+}
+
+function setBallAngle() {
+    yspeed = Math.random() * 200 - 100
+    ballState.ySpeed = yspeed
+    console.log(`ball angle set to: ${yspeed}`)
 }
 
 function create() {
@@ -62,15 +71,49 @@ function create() {
     this.physics.add.collider(gameState.ball, gameState.player1, function () {
         gameState.player1.setVelocityX(0)
         ballState.xSpeed = -ballState.xSpeed;
+        ballState.xSpeed += 10
+        console.log(`ball xspeed: ${ballState.xSpeed}`)
+        setBallAngle()
     }) 
     this.physics.add.collider(gameState.ball, gameState.player2, function () {
         gameState.player2.setVelocityX(0)
         ballState.xSpeed = -ballState.xSpeed;
+        ballState.xSpeed -= 10
+        console.log(`ball xspeed: ${ballState.xSpeed}`)
+        setBallAngle()
     })
 }
 
 function update() {
     gameState.ball.setVelocityX(ballState.xSpeed)
+    gameState.ball.setVelocityY(ballState.ySpeed)
     gameState.player1.x = P1_X
     gameState.player2.x = P2_X
+
+    // Player 2 Controls
+    if (gameState.cursors.up.isDown) {
+        gameState.player2.setVelocityY(-100)
+    } else if (gameState.cursors.down.isDown) {
+        gameState.player2.setVelocityY(100)
+    } else {
+        gameState.player2.setVelocityY(0)
+    }
+
+    // Player 1 Controls
+    if (gameState.key_W.isDown) {
+        gameState.player1.setVelocityY(-100)
+    } else if (gameState.key_S.isDown) {
+        gameState.player1.setVelocityY(100)
+    } else if (gameState.key_W.isUp || gameState.key_S.isUp) {
+        gameState.player1.setVelocityY(0)
+    }
+
+    // Court Boundaries for Ball
+    if (gameState.ball.y < 0) {
+        gameState.ball.y = 0
+        ballState.ySpeed = -ballState.ySpeed
+    } else if (gameState.ball.y > 300) {
+        gameState.ball.y = 300
+        ballState.ySpeed = -ballState.ySpeed
+    }
 }
