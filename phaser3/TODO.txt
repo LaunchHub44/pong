@@ -8,6 +8,9 @@ Tasks
 - Add ball Y velocity. (Done)
 
 - Score and reset the ball
+  - Detect score condition
+  - Update score, and show on screen
+  - Reset the ball
 - Keep track of score
 - Add sounds 
   - paddle bounce sound (Done)
