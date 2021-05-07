@@ -6,14 +6,15 @@ Tasks
 - Bounce ball off paddles (Done)
 - Make paddles move (Done)
 - Add ball Y velocity. (Done)
-
-- Score and reset the ball
-  - Detect score condition
-  - Update score, and show on screen
-  - Reset the ball
-- Keep track of score
-- Add sounds 
+- Score and reset the ball (Complete)
+  - Detect score condition (Done)
+  - Update score, and show on screen (Done)
+  - Reset the ball (Done)
+- Keep track of score (Done)
+- Add sounds (Complete)
   - paddle bounce sound (Done)
-  - score sound
+  - score sound (Done)
   - wall bounce sound (Done)
+
+- Set a match point.
 - Play finished game (Final Task)
