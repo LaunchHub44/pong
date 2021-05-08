@@ -15,6 +15,5 @@ Tasks
   - paddle bounce sound (Done)
   - score sound (Done)
   - wall bounce sound (Done)
-
-- Set a match point.
-- Play finished game (Final Task)
+- Set a match point. (Done)
+- Play finished game (Final Task) (Done)

@@ -1,6 +1,9 @@
 const P1_X = 20
 const P2_X = 380
 const PADDLE_SPEED = 150
+const X_SPEED_INIT = 150
+const V_ACCEL_INIT = 100
+const MAX_SCORE = 5
 
 var config = {
     type: Phaser.AUTO,
@@ -37,8 +40,9 @@ gameState = {
 ballState = {
     x: 200,
     y: 150,
-    xSpeed: 100,
-    ySpeed: 0
+    xSpeed: X_SPEED_INIT,
+    ySpeed: 0,
+    vAccel: V_ACCEL_INIT,
 }
 
 var game = new Phaser.Game(config);
@@ -56,7 +60,7 @@ function preload() {
 }
 
 function setBallAngle() {
-    yspeed = Math.random() * 200 - 100
+    yspeed = Math.random() * 2*ballState.vAccel - ballState.vAccel
     ballState.ySpeed = yspeed
     console.log(`ball angle set to: ${yspeed}`)
 }
@@ -85,6 +89,7 @@ function create() {
         paddleSound.play()
         ballState.xSpeed = -ballState.xSpeed;
         ballState.xSpeed += 10
+        ballState.vAccel += 5
         console.log(`ball xspeed: ${ballState.xSpeed}`)
         setBallAngle()
     }) 
@@ -93,16 +98,38 @@ function create() {
         paddleSound.play()
         ballState.xSpeed = -ballState.xSpeed;
         ballState.xSpeed -= 10
+        ballState.vAccel += 5
         console.log(`ball xspeed: ${ballState.xSpeed}`)
         setBallAngle()
     })
 }
 
-function ballReset() {
+function ballReset(scene) {
     gameState.ball.x = 200
     gameState.ball.y = 150
-    ballState.xSpeed = 100
+    ballState.xSpeed = X_SPEED_INIT
     ballState.ySpeed = 0
+    ballState.vAccel = V_ACCEL_INIT
+
+    if (gameState.p1Score == MAX_SCORE -1 ) {
+        matchPoint1 = scene.add.text(50, 100, 'Match Point', {fontSize: '20px', fill: '#333333'})
+    }
+
+    if (gameState.p2Score == MAX_SCORE -1) {
+        matchPoint2 = scene.add.text(250, 100, 'Match Point', {fontSize: '20px', fill: '#333333'})
+    }
+
+    if (gameState.p1Score == MAX_SCORE || gameState.p2Score == MAX_SCORE) {
+        restart = scene.add.text(50, 200, 'Refresh to play again.', {fontSize: '20px', fill: '#ffffff'})
+        scene.physics.pause()
+        if (gameState.p1Score == MAX_SCORE) {
+            winner1 = scene.add.text(50, 150, 'WINNER', {fontSize: '20px', fill: '#ffffff'})
+        }
+
+        if (gameState.p2Score == MAX_SCORE) {
+            winner2 = scene.add.text(250, 150, 'WINNER', {fontSize: '20px', fill: '#ffffff'})
+        }
+    }
 }
 
 function update() {
@@ -144,7 +171,7 @@ function update() {
     if (gameState.ball.x < 0) {
         scoreSound.play()
         gameState.p2Score += 1
-        ballReset();
+        ballReset(this);
 
         // Present Score
         gameState.p2ScoreText.setText(gameState.p2Score)
@@ -153,7 +180,7 @@ function update() {
     if (gameState.ball.x > 400) {
         scoreSound.play()
         gameState.p1Score += 1
-        ballReset();
+        ballReset(this);
 
         // Present Score
         gameState.p1ScoreText.setText(gameState.p1Score)
